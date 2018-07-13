@@ -1,0 +1,5 @@
+.grid {
+    background: papayawhip;
+    display: flex;
+    flex-direction: column;
+}
