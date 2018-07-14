@@ -1,5 +1,50 @@
 .grid {
-    background: papayawhip;
+    background: blueviolet;
     display: flex;
     flex-direction: column;
+    max-height: 500px;
+    padding: 0;
+    max-width: 500px;
+    width: 500px;
+    height: 500px;
+}
+
+.row {
+    background: red;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    padding: 0;
+    width: 100%;
+}
+
+.cell{
+    background: white;
+    display: flex;
+    box-sizing: content-box;
+    flex-grow: 1;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    padding: 0rem;
+    align-content: center;
+    justify-items: center;
+} 
+
+.choose.on {
+    color: black;
+}
+
+.choose {
+    color: white;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    font-size: 7rem;
+    line-height: 100%;
+    text-align: center;
+    padding-top: 1.5rem;
 }
