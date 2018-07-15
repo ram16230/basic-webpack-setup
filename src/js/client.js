@@ -2,7 +2,8 @@ const state = {
   players: ['X', 'O'],
   player: 0,
   size: 3,
-  grid: []
+  grid: [],
+  over: false;
 };
 
 const setup = lState => {
@@ -57,6 +58,16 @@ const setup = lState => {
 }
 
 const render = lState => {
+
+  //change html
+  if (lState.over === true){
+    //add button
+
+    //show winner
+  } else {
+    //cambiar layout de player
+
+  }
 
 }
 
@@ -113,8 +124,8 @@ const win = (lState) => {
   //if it is a win
   else {
     alert (`Jugador ${lState.player+1} a ganado!`)
-    root.innerHTML = null;
-    setup(lState);
+    //root.innerHTML = null;
+    //setup(lState);
   }
 
   return win;
@@ -129,6 +140,13 @@ const winH = (grid, size, player) => {
       }
     }
     if (times === size){
+      let e = [];
+      console.log(e);
+      e.push(document.getElementsByClassName(`${j*size + 0}`)[0]);
+      e.push(document.getElementsByClassName(`${j*size + 1}`)[0]);
+      e.push(document.getElementsByClassName(`${j*size + 2}`)[0]);
+      console.log(e);
+      e.forEach((element) => element.className = `${element.className} won`);
       return true;
     }
   }
@@ -144,6 +162,11 @@ const winV = (grid, size, player) => {
       }
     }
     if (times === size){
+      let e = [];
+      e.push(document.getElementsByClassName(`${0*size + j}`)[0]);
+      e.push(document.getElementsByClassName(`${1*size + j}`)[0]);
+      e.push(document.getElementsByClassName(`${2*size + j}`)[0]);
+      e.forEach((e) => e.className = `${e.className} won`);
       return true;
     }
   }
@@ -158,6 +181,11 @@ const winD = (grid, size, player) => {
     }
   }
   if (times === size){
+    let e = [];
+    for (let h = 0; h < (size*size); h += size + 1){
+      e.push(document.getElementsByClassName(`${h}`)[0]);
+    }
+    e.forEach((element) => element.className = `${element.className} won`);
     return true;
   }
 
@@ -168,6 +196,11 @@ const winD = (grid, size, player) => {
     }
   }
   if (times == size) {
+    let e = [];
+    for (let h = size - 1; h <= size * (size-1); h += (size - 1)){
+      e.push(document.getElementsByClassName(`${h}`)[0]);
+    }
+    e.forEach((element) => element.className = `${element.className} won`);
     return true;
   }
 
