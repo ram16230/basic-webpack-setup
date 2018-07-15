@@ -1,15 +1,13 @@
-const state = {
+ const state = {
   players: ['X', 'O'],
   player: 0,
   size: 3,
   grid: [],
-  over: false;
+  over: false,
+  winner: -1
 };
 
 const setup = lState => {
-
-  //setear valores
-  lState.player = 0;
 
   lState.grid = new Array(lState.size*lState.size);
 
@@ -34,7 +32,7 @@ const setup = lState => {
       cells[j*lState.size + i].className = `cell ${j*lState.size + i}`;
 
       //add space for the symbol
-      const symbol = document.createElement('p');
+      const symbol = document.createElement('div');
       symbol.className = `choose`;
       symbol.innerHTML = '~';
       cells[j*lState.size + i].appendChild(symbol);
@@ -51,35 +49,61 @@ const setup = lState => {
   }
 
   
-  
-    
+  //create announcer
+  const announcer = document.createElement('h3');
+  announcer.innerHTML = `El turno es del jugador `;
+  announcer.className = 'announcer';
+  //create variable
+  const variable = document.createElement('h3');
+  variable.className = `variable ${lState.players[lState.player]}`;
+  variable.innerHTML = `${lState.players[lState.player]}`;
+  announcer.appendChild(variable);
 
   root.appendChild(grid);
+  root.appendChild(announcer);
+
+  console.log(lState.player);
 }
 
 const render = lState => {
 
-  //change html
-  if (lState.over === true){
-    //add button
+  if (lState.over){
+    //check for tie
+    if (lState.winner == -1) {
+      //mostrar empate
+      alert("Empate!");
+    } 
+    //check for winner
+    else {
+      //mostrar ganador
+      alert(`El ganador es el jugador: ${lState.players[lState.player]}`);
+    }
 
-    //show winner
+    //boton de return;
   } else {
-    //cambiar layout de player
 
+    //change player
+    lState.player = (lState.player + 1) % lState.players.length;
+    //show next player
+    const variable = document.getElementsByClassName('variable')[0];
+    variable.innerHTML = `${lState.players[lState.player]}`;
+    variable.className = `variable ${lState.players[lState.player]}`
   }
+  
 
 }
 
 setup(state);
-render(state);
 
 //listeners
 
 const select = (element, lState) => {
+  console.log(lState);
   const classes = element.parentElement.className.split(' ');
   const symbol= element;
   const position = classes[1];
+
+  
 
   //check if it is taken
   if (lState.grid[position] != -1){
@@ -93,11 +117,18 @@ const select = (element, lState) => {
     symbol.className = `${symbol.className} on ${lState.players[lState.player]}`;
     symbol.innerHTML = `${lState.players[lState.player]}`;
 
-    //
-    win(lState);
+    //if wins
+    if (win(lState)) {
+      lState.winner = lState.player;
+      lState.over = true;
+    } else {
+      //check if its not any cell free
+      if(!lState.grid.includes(-1)){
+        lState.over = true;
+      }
+    }
 
-    //change player
-    lState.player = (lState.player + 1) % lState.players.length;
+    render(lState);
   }
 
   //print of state for testing
@@ -115,20 +146,13 @@ const win = (lState) => {
   const grid = lState.grid;
   const player = lState.player;
   const size = lState.size;
-  const win = false;
 
-  //If its not a win
-  if (!winH(grid, size, player) && !winV(grid, size, player) && !winD(grid, size, player)){
-
-  } 
-  //if it is a win
-  else {
-    alert (`Jugador ${lState.player+1} a ganado!`)
-    //root.innerHTML = null;
-    //setup(lState);
+  //If wins
+  if (winH(grid, size, player) || winV(grid, size, player) || winD(grid, size, player)){
+    return true;
   }
 
-  return win;
+  return false;
 }
 
 const winH = (grid, size, player) => {

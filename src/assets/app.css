@@ -2,15 +2,15 @@
     background: blueviolet;
     display: flex;
     flex-direction: column;
-    max-height: 500px;
-    padding: 0;
-    max-width: 500px;
-    width: 500px;
     height: 500px;
+    max-height: 500px;
+    max-width: 500px;
+    padding: 0;
+    width: 500px;
 }
 
 .row {
-    background: red;
+    background: black;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
@@ -19,34 +19,60 @@
 }
 
 .cell{
+    align-items: center;
     background: white;
-    display: flex;
     box-sizing: content-box;
+    display: flex;
     flex-grow: 1;
+    justify-content: center;
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    padding: 0rem;
-    align-content: center;
-    justify-items: center;
+    padding: 0.5rem;
+    text-align: center;
 } 
+
+.announcer {
+    display: inline;
+}
+
+.variable {
+    display: inline;
+}
 
 .choose.on {
     color: black;
 }
 
+.choose.on.X {
+    color: blue;
+}
+
+.choose.on.O {
+    color: gray;
+}
+
+.X {
+    color: blue;
+}
+
+.O {
+    color: gray;
+}
+
+
 .choose {
-    color: white;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    align-content: center;
     border: 0;
+    box-sizing: border-box;
+    color: white;
     flex-grow: 1;
-    font-size: 1rem;
     font-family: 'Courier New', Courier, monospace;
-    text-align: center;
     font-size: 7rem;
+    justify-content: center;
     line-height: 100%;
-    text-align: center;
+    margin: 0;
     padding-top: 1.5rem;
+    padding: 0;
+    text-align: center;
 }
 
 .won {
