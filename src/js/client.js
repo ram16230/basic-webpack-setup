@@ -1,4 +1,4 @@
- const state = {
+const state = {
   players: ['X', 'O'],
   player: 0,
   size: 3,
@@ -8,52 +8,53 @@
 };
 
 const setup = lState => {
-
+  // create new array for board
   lState.grid = new Array(lState.size*lState.size);
 
+  // contenedor del grid, rows and cells
+  const grid = document.createElement('div');
   const rows = new Array(lState.size);
   const cells = new Array(lState.size*lState.size);
 
-  //contenedor del grid
-  const grid = document.createElement('div');
+  
   grid.className = 'grid';
 
-  //set grid values
+  // set grid values
   for (let j = 0; j < lState.size; j++){
-    //create row
+    // create row
     rows[j] = document.createElement('div');
     rows[j].className = 'row';
     for (let i = 0; i < lState.size; i++ ){
-      //set value
+      // set value
       lState.grid[j*lState.size + i] = -1;
 
-      //create element cell
+      // create element cell
       cells[j*lState.size + i] = document.createElement('div');
       cells[j*lState.size + i].className = `cell ${j*lState.size + i}`;
 
-      //add space for the symbol
+      // add space for the symbol
       const symbol = document.createElement('div');
       symbol.className = `choose`;
       symbol.innerHTML = '~';
       cells[j*lState.size + i].appendChild(symbol);
 
-      //put in row
+      // put in row
       rows[j].appendChild(cells[j*lState.size + i]);
 
-      //set listener
+      // set listener
       cells[j*lState.size + i].onclick = (self) => select(self.target, lState);
     }
 
-    //append to grid
+    // append to grid
     grid.appendChild(rows[j]);
   }
 
   
-  //create announcer
+  // create announcer
   const announcer = document.createElement('h3');
   announcer.innerHTML = `El turno es del jugador `;
   announcer.className = 'announcer';
-  //create variable
+  // create variable
   const variable = document.createElement('h3');
   variable.className = `variable ${lState.players[lState.player]}`;
   variable.innerHTML = `${lState.players[lState.player]}`;
@@ -68,41 +69,53 @@ const setup = lState => {
 const render = lState => {
 
   if (lState.over){
-    //check for tie
+    // get elements to print
+    const text = document.getElementsByClassName('announcer')[0];
+    const icon = document.getElementsByClassName('variable')[0];
+
+    // check for tie
     if (lState.winner == -1) {
-      //mostrar empate
+      // mostrar empate
       alert("Empate!");
+      // mostrar empate
+      text.innerHTML = 'Empate';
+      icon.innerHTML = '';
     } 
-    //check for winner
+    // check for winner
     else {
-      //mostrar ganador
+      // mostrar ganador
       alert(`El ganador es el jugador: ${lState.players[lState.player]}`);
+      // mostrar ganador
+      icon.innerHTML = `${lState.players[lState.player]}`;
+      const icon_ = icon;
+      text.innerHTML = 'El ganador es: ';
+      text.appendChild(icon_)
     }
 
-    //restart button;
+    // restart button;
     const restart = document.createElement('button');
     restart.innerHTML = 'Volver a jugar'
     restart.className = 'grow button restart';
 
     restart.onclick = (self) => {
-      //empty root;
+      // empty root;
       if (root.hasChildNodes()) {
         root.innerHTML = null;
       }
 
-      //reset state;
+      // reset state;
       lState.over = false;
       lState.winner = -1;
 
-      //set 
+      // set 
       setup(lState)
     };
     root.appendChild(restart);
   } else {
 
-    //change player
+    // change player
     lState.player = (lState.player + 1) % lState.players.length;
-    //show next player
+    // show next player
     const variable = document.getElementsByClassName('variable')[0];
     variable.innerHTML = `${lState.players[lState.player]}`;
     variable.className = `variable ${lState.players[lState.player]}`
@@ -113,34 +126,32 @@ const render = lState => {
 
 setup(state);
 
-//listeners
-
+// listeners
 const select = (element, lState) => {
-  console.log(lState);
+  // extract data 
   const classes = element.parentElement.className.split(' ');
   const symbol= element;
   const position = classes[1];
 
-  
-
-  //check if it is taken
+  // check if it is taken
   if (lState.grid[position] != -1){
-    //error not valid
+    // error not valid
     alert("Posición ivalida!\nPor favor escoga otro cuadro.");
   } else {
-    //change state of grid
+    // change state of grid
     lState.grid[position] = lState.player;
 
-    //add symbol
+    // add symbol
     symbol.className = `${symbol.className} on ${lState.players[lState.player]}`;
     symbol.innerHTML = `${lState.players[lState.player]}`;
 
-    //if wins
+    // if wins
     if (win(lState)) {
+      // set winner and set over
       lState.winner = lState.player;
       lState.over = true;
     } else {
-      //check if its not any cell free
+      // check if its not any cell free
       if(!lState.grid.includes(-1)){
         lState.over = true;
       }
@@ -149,23 +160,15 @@ const select = (element, lState) => {
     render(lState);
   }
 
-  //print of state for testing
-  let row = ``;
-  for (let j = 0; j < lState.size; j++){
-    for (let i = 0; i < lState.size; i++){
-      row = `${row} ${lState.grid[j*lState.size + i]} `
-    }
-    row = `${row}\n`;
-  }
-
 }
 
 const win = (lState) => {
+  // extract data 
   const grid = lState.grid;
   const player = lState.player;
   const size = lState.size;
 
-  //If wins
+  // If wins
   if (winH(grid, size, player) || winV(grid, size, player) || winD(grid, size, player)){
     return true;
   }
@@ -174,20 +177,24 @@ const win = (lState) => {
 }
 
 const winH = (grid, size, player) => {
+  // recorrer rows
   for (let j = 0; j < size; j++){
     let times = 0;
     for (let i = 0; i < size; i++){
+      // check if the player has the spot
       if(grid[j*size + i] === player){
         times++;
       }
     }
+    // if times is equal to size
     if (times === size){
       let e = [];
+      for (let i = 0; i < size; i++) {
+        // get de elements
+        e.push(document.getElementsByClassName(`${j*size + i}`)[0]);
+      }
       console.log(e);
-      e.push(document.getElementsByClassName(`${j*size + 0}`)[0]);
-      e.push(document.getElementsByClassName(`${j*size + 1}`)[0]);
-      e.push(document.getElementsByClassName(`${j*size + 2}`)[0]);
-      console.log(e);
+      // set class
       e.forEach((element) => element.className = `${element.className} won`);
       return true;
     }
@@ -196,18 +203,23 @@ const winH = (grid, size, player) => {
 }
 
 const winV = (grid, size, player) => {
+  // recorrer columns
   for (let j = 0; j < size; j++){
     let times = 0;
     for (let i = 0; i < size; i++){
+      // check if the player has the spot
       if(grid[i*size + j] === player){
         times++;
       }
     }
+    // if times is equal to size
     if (times === size){
       let e = [];
-      e.push(document.getElementsByClassName(`${0*size + j}`)[0]);
-      e.push(document.getElementsByClassName(`${1*size + j}`)[0]);
-      e.push(document.getElementsByClassName(`${2*size + j}`)[0]);
+      for (let i = 0; i < size; i++) {
+        // get de elements
+        e.push(document.getElementsByClassName(`${i*size + j}`)[0]);
+      }
+      // set class
       e.forEach((e) => e.className = `${e.className} won`);
       return true;
     }
@@ -217,29 +229,38 @@ const winV = (grid, size, player) => {
 
 const winD = (grid, size, player) => {
   let times = 0;
+  // recorrer diagonal
   for (let h = 0; h < (size*size); h += size + 1){
+    // check if the player has the spot
     if (grid[h] === player){
       times++;
     }
   }
+  // if times is equal to size
   if (times === size){
     let e = [];
     for (let h = 0; h < (size*size); h += size + 1){
+      // get de elements
       e.push(document.getElementsByClassName(`${h}`)[0]);
     }
+    // set class
     e.forEach((element) => element.className = `${element.className} won`);
     return true;
   }
 
   times = 0;
+  // recorrer diagonal
   for (let h = size - 1; h <= size * (size-1); h += (size - 1)){
+    // check if the player has the spot
     if (grid[h] === player){
       times++;
     }
   }
+  // if times is equal to size
   if (times == size) {
     let e = [];
     for (let h = size - 1; h <= size * (size-1); h += (size - 1)){
+      // get de elements
       e.push(document.getElementsByClassName(`${h}`)[0]);
     }
     e.forEach((element) => element.className = `${element.className} won`);
