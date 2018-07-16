@@ -12,7 +12,8 @@ body {
     max-width: 500px;
     padding: 0;
     width: 500px;
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto;
+
 }
 
 .row {
@@ -39,10 +40,12 @@ body {
 .announcer {
     font-weight: normal;
     display: inline;
+    margin: 0 0 0 auto;
 }
 
 .variable {
     display: inline;
+    margin: 0 1rem;
 }
 
 .choose.on {
