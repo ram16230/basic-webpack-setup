@@ -1,3 +1,8 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: -0.01rem;
+}
+
 .grid {
     background: blueviolet;
     display: flex;
@@ -31,6 +36,7 @@
 } 
 
 .announcer {
+    font-weight: normal;
     display: inline;
 }
 
@@ -65,7 +71,6 @@
     box-sizing: border-box;
     color: white;
     flex-grow: 1;
-    font-family: 'Courier New', Courier, monospace;
     font-size: 7rem;
     justify-content: center;
     line-height: 100%;
@@ -77,4 +82,27 @@
 
 .won {
     background: peru;
+}
+
+.grow {
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.5rem;
+    transition: 0.25s ease-in-out;
+    border-radius: 0.25rem;
+    background: rgb(76, 179, 76);
+}
+
+.grow:hover {
+    background: rgb(64, 153, 64);
+    transform: scale(1.15);
+}
+
+.button {
+    border: 0;
+    margin: 2rem 1.15rem;
+    padding: 1.25rem 3rem;
+    display: block;
+
 }

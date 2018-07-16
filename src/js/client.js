@@ -79,7 +79,25 @@ const render = lState => {
       alert(`El ganador es el jugador: ${lState.players[lState.player]}`);
     }
 
-    //boton de return;
+    //restart button;
+    const restart = document.createElement('button');
+    restart.innerHTML = 'Volver a jugar'
+    restart.className = 'grow button restart';
+
+    restart.onclick = (self) => {
+      //empty root;
+      if (root.hasChildNodes()) {
+        root.innerHTML = null;
+      }
+
+      //reset state;
+      lState.over = false;
+      lState.winner = -1;
+
+      //set 
+      setup(lState)
+    };
+    root.appendChild(restart);
   } else {
 
     //change player
