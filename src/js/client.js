@@ -137,7 +137,7 @@ const select = (element, lState) => {
   if (lState.grid[position] != -1){
     // error not valid
     alert("Posición ivalida!\nPor favor escoga otro cuadro.");
-  } else {
+  } else if (!lState.over) {
     // change state of grid
     lState.grid[position] = lState.player;
 
@@ -157,6 +157,8 @@ const select = (element, lState) => {
       }
     }
 
+    render(lState);
+  } else {
     render(lState);
   }
 
